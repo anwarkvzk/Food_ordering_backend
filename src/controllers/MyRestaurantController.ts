@@ -57,8 +57,9 @@ const updateMyRestaurant = async (req: Request, res: Response) => {
     if (req.file) {
       const imageUrl = await uploadImage(req.file as Express.Multer.File);
       restaurant.imageUrl = imageUrl;
-      res.status(200).send(restaurant);
     }
+    await restaurant.save();
+    res.status(200).send(restaurant);
   } catch (error) {
     console.log("error", error);
     res.status(500).json({ message: "Something went wrong" });
